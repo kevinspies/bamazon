@@ -13,21 +13,21 @@ var connection = mysql.createConnection({
 
 });
 
-connection.connect(function (err) {
-    if (err) throw err;
-    console.log("connected as id " + connection.threadId);
-    connection.end();
-});
-
 // connection.connect(function (err) {
 //     if (err) throw err;
 //     console.log("connected as id " + connection.threadId);
-//     afterConnection();
+//     connection.end();
 // });
-// function afterConnection() {
-//     connection.query("SELECT * FROM products", function (err, res) {
-//         if (err) throw err;
-//         console.log(res);
-//         connection.end();
-//     });
-// }
+
+connection.connect(function (err) {
+    if (err) throw err;
+    console.log("connected as id " + connection.threadId);
+    afterConnection();
+});
+function afterConnection() {
+    connection.query("SELECT * FROM products", function (err, res) {
+        if (err) throw err;
+        console.log(res);
+        connection.end();
+    });
+}
