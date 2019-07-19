@@ -52,12 +52,12 @@ function afterConnection() {
             message: "how many?",
             name: "number"
         }
-    ]).then(function (input) {//promise
+    ]).then(function (userInput) {//promise
 
         //I CAN HAVE MULTIPLE .THEN's
 
         // if (inqRes.confirm) {
-        console.log("Great, now let's process your request of... " + input.number + " amount of id#" + input.item);
+        console.log("Great, now let's process your request of... " + userInput.number + " amount of id#" + userInput.item);
         // }
         // else {
         //     console.log("\nThat's okay, come again when you are more sure.\n");
@@ -68,18 +68,36 @@ function afterConnection() {
         //check if there are enough items to meet their request, otherwise give them an error
 
         //this line grabs all items from product table with the desired item ID - the one they want! (i think)
-        connection.query("SELECT * FROM products WHERE ?", { item_id: input.item }, function (err, res) {
+        // connection.query("SELECT * FROM products WHERE ?", { item_id: userInput.item }, function (err, res) {
 
+        // connection.query("SELECT * FROM products WHERE ?", { item_id: userInput.item }, function (err, res) {
+        //     // if (err) {
+        //     //     console.log("**error with inquirer response!**");
+        //     //     throw err;
+        //     // }
+        //     console.log("this is how many items you want! : " + userInput.item);
+        //     console.log("response: " + res);
+
+        // });
+
+        connection.query("SELECT * FROM products", function (err, res) {
+            if (err) throw err;
+            console.log("heyyyyy");
             console.log(res);
-
+            connection.end();
         });
+        //now i can go through the json and at least hard code to see if i have enough
+
+
+
+        // connection.query("SELECT products.stock_quantity", function)
 
         //if there are enough items, update the SQL database to reflect the remaining quantity
         //then, show the customer the total cost of their purchase
 
 
         //it would be cool to have timeouts for after the user inputs something, display their temp SELECT table? (maybe) then a second or two later re prompt them (probably tricky)
-        afterConnection();//call again to keep the questions coming
+        // afterConnection();//call again to keep the questions coming
 
     }).catch(function (err) {
         console.log(err);
@@ -88,7 +106,7 @@ function afterConnection() {
 
 
 
-    connection.end();
+
 
 }
 function showProducts() {
@@ -127,5 +145,8 @@ function queryDepartmentProducts() {
 // function queryItem() {
 //     connection.query("SELECT")
 // }
+
+
+// connection.end();
 
 
