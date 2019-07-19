@@ -80,6 +80,7 @@ function afterConnection() {
 
         // });
 
+
         //maybe i just need to do an update here..... yeahh duuuhhh i will!
 
         connection.query("SELECT * FROM products", function (err, res) {
@@ -88,13 +89,27 @@ function afterConnection() {
             console.log(res);
             for (var i = 0; i < res.length; i++) {
                 var currentRow = res[i];
-                console.log("item " + i + " id: " + currentRow.item_id);
-                if (currentRow.item_id == userInput) {
+                console.log("item " + i + " id: " + currentRow.item_id + "user inputted: " + userInput.item);
+                var newInt = parseInt(userInput.item);
+                if (currentRow.item_id === newInt) {//FIXED it was a typing issue i knew it, of course it was trying to compare a string to an int
                     console.log("item found in database!");
                     //now check to see if there is a sufficient amount
                     if (currentRow.stock_quantity > userInput.number) {
                         //sufficient quantity
                         console.log("there is sufficient quantity in the store! We will be able to process your order soon.");
+                        connection.query("UPDATE products SET ? WHERE ?",
+                            [
+                                {
+                                    stock_quantity: currentRow.stock_quantity - userInput.number
+                                },
+                                {
+                                    item_id: userInput.item
+                                }
+                            ],
+
+                        )
+                        console.log("Your order has been placed!");
+                        showProducts();
                     }
                     else {
                         console.log("insufficient quantity in the store, sorry");
