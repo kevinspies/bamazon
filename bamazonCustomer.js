@@ -80,17 +80,25 @@ function afterConnection() {
 
         // });
 
-        //maybe i just need to do an update here.....
+        //maybe i just need to do an update here..... yeahh duuuhhh i will!
 
         connection.query("SELECT * FROM products", function (err, res) {
             if (err) throw err;
             console.log("we are looking at the products table yaaaasssss");
             console.log(res);
             for (var i = 0; i < res.length; i++) {
-                console.log("item " + i + " id: " + res[i].item_id);
-                if (res[i].item_id == userInput) {
+                var currentRow = res[i];
+                console.log("item " + i + " id: " + currentRow.item_id);
+                if (currentRow.item_id == userInput) {
                     console.log("item found in database!");
-
+                    //now check to see if there is a sufficient amount
+                    if (currentRow.stock_quantity > userInput.number) {
+                        //sufficient quantity
+                        console.log("there is sufficient quantity in the store! We will be able to process your order soon.");
+                    }
+                    else {
+                        console.log("insufficient quantity in the store, sorry");
+                    }
                 }
             }
         });
