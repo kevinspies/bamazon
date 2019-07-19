@@ -84,10 +84,14 @@ function afterConnection() {
 
         connection.query("SELECT * FROM products", function (err, res) {
             if (err) throw err;
-            console.log("heyyyyy");
+            console.log("we are looking at the products table yaaaasssss");
             console.log(res);
             for (var i = 0; i < res.length; i++) {
+                console.log("item " + i + " id: " + res[i].item_id);
+                if (res[i].item_id == userInput) {
+                    console.log("item found in database!");
 
+                }
             }
         });
         //now i can go through the json and at least hard code to see if i have enough
