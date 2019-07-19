@@ -54,10 +54,10 @@ function afterConnection() {
         }
     ]).then(function (userInput) {//promise
 
+        console.log("Great, now let's process your request of... " + userInput.number + " amount of id#" + userInput.item);
         //I CAN HAVE MULTIPLE .THEN's
 
         // if (inqRes.confirm) {
-        console.log("Great, now let's process your request of... " + userInput.number + " amount of id#" + userInput.item);
         // }
         // else {
         //     console.log("\nThat's okay, come again when you are more sure.\n");
@@ -80,11 +80,15 @@ function afterConnection() {
 
         // });
 
+        //maybe i just need to do an update here.....
+
         connection.query("SELECT * FROM products", function (err, res) {
             if (err) throw err;
             console.log("heyyyyy");
             console.log(res);
-            connection.end();
+            for (var i = 0; i < res.length; i++) {
+
+            }
         });
         //now i can go through the json and at least hard code to see if i have enough
 
