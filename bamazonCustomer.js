@@ -25,7 +25,7 @@ connection.connect(function (err) {
     if (err) throw err;
     console.log("connected as id " + connection.threadId);
 
-
+    showProducts();
     afterConnection();
 });
 //maybe this after connection method is superflous?
@@ -38,7 +38,9 @@ function afterConnection() {
     //here to inquirer where all the interfacing and everything happens, i am connected
     //so everything is fine.
 
-    showProducts();//glitchy spacing on terminal input here, inquirer text
+    // showProducts();
+
+    //glitchy spacing on terminal input here, inquirer text
     //showing up too quickly and moving the column titles to the right
     //aka this first question's text basically get's in the way, why!?!?
     inquirer.prompt([
@@ -109,6 +111,7 @@ function afterConnection() {
 
                         )
                         console.log("Your order has been placed!");
+                        console.log("Your total cost of purchase: " + currentRow.price * userInput.number);
                         showProducts();
                     }
                     else {
@@ -149,6 +152,7 @@ function showProducts() {
         console.log(columns);
         // console.log(res);
         // queryDepartmentProducts();
+        console.log("--------------------------");
     });
 }
 function queryAllProducts() {
@@ -168,6 +172,23 @@ function queryDepartmentProducts() {
             console.log(res[i].item_id + " | " + res[i].product_name + " | " + res[i].department_name + " | " + res[i].price + " | " + res[i].stock_quantity);
         }
     });
+}
+
+function viewLowInventory() {
+    var query = "SELECT * from products WHERE stock_quantity < 5";
+    connection.query(query, function (err, res) {
+        if (err) throw err;
+        // var columns = columnify(res);
+        var columns = columnify(res);
+        console.log(columns);
+
+    })
+}
+function addToInventory(num) {
+
+}
+function addNewProduct(product) {
+
 }
 
 //i want a function for querying the item name, so i can call that and tell the user 
