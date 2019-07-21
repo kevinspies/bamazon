@@ -26,7 +26,10 @@ connection.connect(function (err) {
     console.log("connected as id " + connection.threadId);
 
     showProducts();
-    afterConnection();
+    // setTimeout i may just do a timeout here to prevent werid asynchronicity from messing up my prompts but i should find better solution
+    // setTimeout(afterConnection(), 1000);//why does that cause my inquirer to stop waiting for input and just exits
+    //terminal commands
+    // afterConnection();
 });
 //maybe this after connection method is superflous?
 function afterConnection() {
@@ -46,7 +49,7 @@ function afterConnection() {
     inquirer.prompt([
         {
             type: "input",
-            message: "ID of product you'd like to buy",
+            message: "ID of product you'd like to buy?\n",//\n almost fixes it??? but now i see no prompt at all.
             name: "item"
         },
         {
@@ -152,7 +155,7 @@ function showProducts() {
         console.log(columns);
         // console.log(res);
         // queryDepartmentProducts();
-        console.log("--------------------------");
+        console.log("----------------------------------------------------");
     });
 }
 function queryAllProducts() {
